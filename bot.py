@@ -1,16 +1,18 @@
-
+import re
 import praw
-import logging
-import config
-
-import requests
 import json
+import config
+import logging
+import requests
 
-#TODO get logger
+#BOT WILL BE ENTIRELY CONFIGURABLE THROUGH CONFIG.py
+
+
+ #TODO reply to comment with link and add to postgres db
+#reddit.comment(comment_id).reply('PLACEHOLDER')
 
 
 def main():
-
     #Attempt login
     try:
         reddit = praw.Reddit(client_id=config.client_id,
@@ -23,19 +25,29 @@ def main():
         #TODO error handling
         pass
 
-    #iterate through newly submitted comments
+    #Iterate through newly submitted comments
     for comment_id in reddit.subreddit(config.subreddits).stream.comments(skip_existing=True):
+        #Compile Regex
         
-        #Search for keyword (with valid spacing)
-        if reddit.comment(comment_id).body.find(config.keyword + ' ',0,6):
-            #TODO reply to comment with link and add to postgres db
-            print('command received')
-            reddit.comment(comment_id).reply('PLACEHOLDER')
+        comment_body = reddit.comment(comment_id).body
+        #Check for the configured keyword 
+        if comment_body.find(config.keyword):
+            clean_body = sanitize_input(comment_body)
             
-        
+            #TODO search configured keyword through regex
+            
+
+            
 
 
-    
+
+
+#TODO Clean input of illegal characters
+def sanitize_input(comment_body):
+    #To lowercase
+    comment_body = comment_body.lower()
+    #
+    return comment_body
 
 if __name__ == "__main__":
     main()
