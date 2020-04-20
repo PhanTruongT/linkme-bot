@@ -1,3 +1,6 @@
-#ignore credentials file
+#ignore py config file
 config.py
 
+
+#ignore praw config file
+*.ini
