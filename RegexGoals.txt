@@ -1,0 +1,31 @@
+Regex goals and explanation
+
+Queries to be supported
+{
+	#beginning
+	!linkme sugar, red rebel, ncstar lorem ipsum dolor sit amet
+
+	#end
+	ncstar lorem ipsum dolor sit amet !linkme m4, red rebel, ncstar
+
+	#multiline
+	!linkme sugar
+	!linkme red rebel
+	!linkme ncstar
+	
+	#multiple !linkme on oneline
+	!linkme sugar !linkme red rebel !linkme ncstar
+
+	#mixed
+	!linkme sugar, red rebel
+
+	!linkme ncstar 
+
+}
+
+
+
+#searching
+keep total search terms collected in var, terminate collection if > 20 (20 search terms limit)
+detect new search term after comma
+search for new term until hit !linkme or new line (1 displayed newline = 2 source new line)
