@@ -1,9 +1,13 @@
-Regex goals and explanation
+
+pattern = "\W!linkme\b"
+keyword_compiled_regex = re.compile(pattern, re.I, re.M)
+word_split_regex = re.split('\W')
 
 Queries to be supported
 {
-	#beginning
-	!linkme sugar, red rebel, ncstar lorem ipsum dolor sit amet
+	#normal usage
+	!linkme sugar, red rebel, ncstar 
+	lorem ipsum dolor sit amet
 
 	#end
 	ncstar lorem ipsum dolor sit amet !linkme m4, red rebel, ncstar
@@ -20,6 +24,9 @@ Queries to be supported
 	!linkme sugar, red rebel
 
 	!linkme ncstar 
+	
+	#casing
+	!LInKMe sugar, red rebel, ncstar
 
 }
 
@@ -29,3 +36,4 @@ Queries to be supported
 keep total search terms collected in var, terminate collection if > 20 (20 search terms limit)
 detect new search term after comma
 search for new term until hit !linkme or new line (1 displayed newline = 2 source new line)
+
