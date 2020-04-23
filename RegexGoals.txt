@@ -1,5 +1,6 @@
 
-pattern = "\W!linkme\b"
+
+pattern = r"\W!linkme \w\w"
 keyword_compiled_regex = re.compile(pattern, re.I, re.M)
 word_split_regex = re.split('\W')
 
@@ -31,9 +32,8 @@ Queries to be supported
 }
 
 
+#queries requirement
 
-#searching
-keep total search terms collected in var, terminate collection if > 20 (20 search terms limit)
-detect new search term after comma
-search for new term until hit !linkme or new line (1 displayed newline = 2 source new line)
+Minimum of search length of 2
+
 
