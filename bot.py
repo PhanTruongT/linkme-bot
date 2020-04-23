@@ -29,46 +29,47 @@ def main():
 
         # Check for keyword in comment
         if clean_comment.find(config.keyword):
-            get_search_keys(clean_comment)
+            keyword_list = get_search_keys(clean_comment)
+            
+            for key in keyword_list:
+                print(key)
        
-    
 
 
 # Extract a list of search keys
 def get_search_keys(clean_comment):
         keyword_indices = get_keywords_pos(clean_comment)
 
-        search_keys = []
-        for index_i, key_i in enumerate(keyword_indices):
-            begin = key_i + 8
-            print('begin', begin, 'current index', index_i)
-            # On last keyword, set end to the end of the string 
-            if index_i == len(keyword_indices) - 1:
-                end = len(clean_comment)
+        keyword_list = []
+        # Find starting and ending pos
+        for list_i, comment_i in enumerate(keyword_indices):
+            begin = comment_i+len(config.keyword)+1 # add one to off-set space
+            
+            # On last keyword, set end to the end of the comment
+            if list_i == len(keyword_indices) - 1:
+                end = len(clean_comment) - 1    
 
-            # Set end to end of line, or the starting index of next command keyword
+            # Set end to the next keyword, or next newline
             else:
-                # Check for index of next nextline #TODO FIX, NOT DETECTING NEWLINE
-                # Replace index_i with key_i  replace body index with key_i + body_index
-                for body_index, element in enumerate(
-                    clean_comment[index_i : len(clean_comment)]
-                ):
-                    if element == '\n':
-                        next_newline = body_index
-                        #break needed
+                next_keyword = keyword_indices[list_i + 1]
+                next_newline = get_next_newline(comment_i, clean_comment)
 
-                next_key = keyword_indices[index_i + 1]
-                print("next index", keyword_indices[index_i + 1])
-                if next_newline > keyword_indices[index_i + 1]:
-                    end = next_key
+                # Set end to whichever is closest next_newline or next_keyword
+                if next_newline is not None:
+                    if next_newline > next_keyword:
+                        end = next_keyword
+                    elif next_newline < next_keyword:
+                        end = next_newline
+                    else:
+                        print("This is impossible")
                 else:
-                    end = next_newline
+                    print("There are no next newline")
 
-            local_search_keys = clean_comment[begin:end]
-            for key in local_search_keys.split():
-                search_keys.append(key)
-        
-        print(search_keys)
+            local_keywords_string = clean_comment[begin:end]
+            local_keywords_list = re.split(r'\W+',local_keywords_string)
+
+            keyword_list.extend(local_keywords_list)
+        return keyword_list
 
 
 
@@ -117,6 +118,18 @@ def get_keywords_pos(clean_comment):
     return keyword_indices
 
 
+# Returns index of next newline, returns None if there are no newlines
+def get_next_newline(comment_i, clean_comment):
+    clean_comment_sub = clean_comment[comment_i,len(clean_comment) - 1]
+    next_newline = None
+    
+    # Iterate through comment substring, find index of next newline
+    for char_count, char in enumerate(clean_comment_sub, 1):
+        if char == "\n":
+            next_newline = comment_i + char_count
+            break
+
+    return next_newline
 
 
 if __name__ == "__main__":
