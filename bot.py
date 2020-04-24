@@ -7,8 +7,10 @@ import requests
 
 # BOT WILL BE ENTIRELY CONFIGURABLE THROUGH CONFIG.py
 
+#TODO split by , instead of spaces
+#TODO strip spacing between commas
 #TODO LOGGING, REPLACE ALL PRINTS
-#TODO Fix get_search_keys()
+
 
 
 # TODO reply to comment with link and add to postgres db
@@ -46,7 +48,6 @@ def get_search_keys(clean_comment):
             
             begin = comment_i+len(config.keyword) 
 
-            
 
             # On last keyword, set end to the end of the comment
             if list_i == len(keyword_indices) - 1:
@@ -67,13 +68,14 @@ def get_search_keys(clean_comment):
                         print("This is impossible")
                 else:
                     print("There are no next newline")
+                    end = next_keyword
 
             local_keywords_string = clean_comment[begin:end]
-            local_keywords_list = re.split(r'\W+',local_keywords_string)
+            local_keywords_list = re.split(r',',local_keywords_string)
 
+            local_keywords_list = map(str.strip,local_keywords_list)
             keyword_list.extend(local_keywords_list)
         return keyword_list
-
 
 
 
@@ -98,7 +100,7 @@ def login():
     
 # TODO Clean input of illegal characters
 def get_clean_comment(comment):
-    clean_comment = comment
+    clean_comment = comment.strip()
     return clean_comment
 
 
