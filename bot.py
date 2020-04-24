@@ -26,11 +26,11 @@ def main():
     ):
         
         clean_comment = get_clean_comment(reddit.comment(comment_id).body)
-
+        print(clean_comment)
         # Check for keyword in comment
-        if clean_comment.find(config.keyword):
+        if clean_comment.find(config.keyword) != -1:
+            print('keyword found')
             keyword_list = get_search_keys(clean_comment)
-            
             for key in keyword_list:
                 print(key)
        
@@ -43,11 +43,14 @@ def get_search_keys(clean_comment):
         keyword_list = []
         # Find starting and ending pos
         for list_i, comment_i in enumerate(keyword_indices):
-            begin = comment_i+len(config.keyword)+1 # add one to off-set space
             
+            begin = comment_i+len(config.keyword) 
+
+            
+
             # On last keyword, set end to the end of the comment
             if list_i == len(keyword_indices) - 1:
-                end = len(clean_comment) - 1    
+                end = len(clean_comment)    
 
             # Set end to the next keyword, or next newline
             else:
@@ -120,7 +123,7 @@ def get_keywords_pos(clean_comment):
 
 # Returns index of next newline, returns None if there are no newlines
 def get_next_newline(comment_i, clean_comment):
-    clean_comment_sub = clean_comment[comment_i,len(clean_comment) - 1]
+    clean_comment_sub = clean_comment[comment_i:]
     next_newline = None
     
     # Iterate through comment substring, find index of next newline
