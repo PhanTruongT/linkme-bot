@@ -5,3 +5,5 @@ config.py
 #ignore praw config file
 *.ini
 
+#ignore .vscode folder 
+.vscode/*

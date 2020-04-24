@@ -7,9 +7,7 @@ import requests
 
 # BOT WILL BE ENTIRELY CONFIGURABLE THROUGH CONFIG.py
 
-#TODO fix adadasdadsada !linkme
 # TODO LOGGING, REPLACE ALL PRINTS
-
 
 # TODO reply to comment with link and add to postgres db
 # TODO break refactor debug into functions
