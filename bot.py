@@ -8,7 +8,6 @@ import utils
 
 # BOT WILL BE ENTIRELY CONFIGURABLE THROUGH CONFIG.py
 
-# TODO LOGGING, REPLACE ALL PRINTS
 # TODO unittest
 # TODO type checking
 
@@ -17,7 +16,7 @@ import utils
 # TODO break refactor debug into functions
 
 
-logger = utils.make_logger(config.logfile, config.logfile)
+logger = utils.make_logger(config.logfile, config.logLevel)
 
 def main():
     reddit = login()
