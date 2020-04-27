@@ -17,24 +17,24 @@ import utils
 # TODO break refactor debug into functions
 
 
+logger = utils.make_logger(config.logfile, config.logfile)
 
 def main():
     reddit = login()
-    logger = utils.make_logger(config.logfile, config.logfile)
-    
 
     # Iterate through newly submitted comments
     for comment_id in reddit.subreddit(config.subreddits).stream.comments(
         skip_existing=True
     ):
         clean_comment = get_clean_comment(reddit.comment(comment_id).body)
-        print(clean_comment)
+        logger.info(f'Clean comment: \n {clean_comment}')
+
         # Check for keyword in comment
         if clean_comment.find(config.keyword) != -1:
-            print("keyword found")
+            logger.info('Keyword Found')
+
             keyword_list = get_search_keys(clean_comment)
-            
-            print(keyword_list)
+            logger.info(keyword_list)
 
 
 # Extract a list of search keys
@@ -63,9 +63,9 @@ def get_search_keys(clean_comment):
                 elif next_newline < next_keyword:
                     end = next_newline
                 else:
-                    print("This is impossible")
+                    logger.warning('IMPOSSIBLE :: next_newline == next_keyword ')
             else:
-                print("There are no next newline")
+                logger.info("There are no next newline")
                 end = next_keyword
 
         local_keywords_string = clean_comment[begin:end]
@@ -77,7 +77,7 @@ def get_search_keys(clean_comment):
 
 
 def login():
-    # Attempt login
+    logger.info('Attempting login')
     try:
         reddit = praw.Reddit(
             client_id=config.client_id,
