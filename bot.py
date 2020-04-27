@@ -4,24 +4,29 @@ import json
 import config
 import logging
 import requests
+import utils
 
 # BOT WILL BE ENTIRELY CONFIGURABLE THROUGH CONFIG.py
 
 # TODO LOGGING, REPLACE ALL PRINTS
+# TODO unittest
+# TODO type checking
+
 
 # TODO reply to comment with link and add to postgres db
 # TODO break refactor debug into functions
-# TODO unittest
+
 
 
 def main():
     reddit = login()
+    logger = utils.make_logger(config.logfile, config.logfile)
+    
 
     # Iterate through newly submitted comments
     for comment_id in reddit.subreddit(config.subreddits).stream.comments(
         skip_existing=True
     ):
-
         clean_comment = get_clean_comment(reddit.comment(comment_id).body)
         print(clean_comment)
         # Check for keyword in comment
