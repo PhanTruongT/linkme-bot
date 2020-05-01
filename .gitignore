@@ -12,3 +12,6 @@ config.py
 
 #ignore log files
 *.log
+
+#ignore pytest cache
+.pytest_cache/

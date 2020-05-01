@@ -1,14 +1,17 @@
+from bot import utils
+from bot import config
 import re
 import praw
 import json
-import config
+
 import logging
 import requests
-import utils
+
 
 # BOT WILL BE ENTIRELY CONFIGURABLE THROUGH CONFIG.py
 
 # TODO pytest
+# TODO CODECOV
 # TODO type checking
 
 
