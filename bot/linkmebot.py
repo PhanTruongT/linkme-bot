@@ -3,7 +3,6 @@ from bot import config
 import re
 import praw
 import json
-
 import logging
 import requests
 
